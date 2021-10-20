@@ -1,7 +1,40 @@
 
-
+header{
+    color:blue;
+}
+.navbar{
+    display: flexbox;
+    padding-bottom: 1%;
+}
+.navbar a {
+    text-decoration: none;
+    color:rgb(226, 224, 240)
+}
 body{
-    display: inline-flex;
     column-gap: 20px;
-    background-color: blue;
+    background-color:rgb(170, 172, 206);
+}
+.content{
+    color:rgb(226, 224, 240);
+}
+.content h2{
+    color:rgb(58, 55, 53);
+}
+
+.message{
+    display:list-item;
+    border: rgb(105, 99, 75);
+    border-radius: 1%;
+    padding-bottom: 2%;
+}
+
+.message .text{
+    color:rgb(91, 59, 117);
+}
+
+.message .metadata{
+    color:rgb(8, 78, 20);
+}
+footer{
+    color: rgb(42, 99, 165);
 }
