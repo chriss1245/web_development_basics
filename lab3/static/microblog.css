@@ -1,6 +1,8 @@
+body {
+    background-color: beige;
+}
 
-
-body{
+.message{
     display: inline-flex;
     column-gap: 20px;
     background-color: blue;
