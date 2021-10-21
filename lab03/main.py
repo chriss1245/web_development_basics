@@ -46,7 +46,16 @@ def user():
 
 @bp.route("/messages")
 def messages():
+    user = model.User(1, "mary@example.com", "Marie")
+    users = [model.User(i+2, name + '@example.com', name) for i, name in zip(range(4), ['emilio', 'pablo', 'rosa', 'hilda'])]
+
+
     message = model.Message(
-            1, user, "Test post", datetime.datetime.now(dateutil.tz.tzlocal())
+            1, user, "I am testing if this awsome page works", datetime.datetime.now(dateutil.tz.tzlocal())
         )
-    return render_template("main/message.html", message)
+
+    replies = [model.Message(i+2, 
+                users[i],
+                text,
+                datetime.datetime.now(dateutil.tz.tzlocal())) for i, text in zip(range(4), ['coll', 'great', 'rt', 'love you'])]
+    return render_template("main/message.html", post = message, user = user, n_replies = len(replies), replies =replies)

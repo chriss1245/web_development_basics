@@ -1,0 +1,6 @@
+<div class = "replies">
+    <h4 class = "h"> Got {{n_replies}} replies</h4>
+    {% for post in replies %}
+        {% include 'post_template.html'%}
+    {% endfor %}
+</div>
