@@ -1,0 +1,13 @@
+<!-- Profile image-->
+<section class = 'header'>
+    <img height="200" width="200" src={{user.photo}}>
+    <div class = 'description'>
+        <h2 class = "h">{{user.name}}</h2>
+        <strong>({{user.email}})</estrong>
+    </div>
+</section>
+<section>
+<section class = "body">
+    <h3 class = "h"> Your latests posts</h3>
+    {% include "posts_template.html"%}
+</section>

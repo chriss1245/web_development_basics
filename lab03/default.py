@@ -1,0 +1,1 @@
+PHOTO = "https://winklevosscapital.com/wp-content/uploads/2014/10/2014-09-16-Anoynmous-The-Rise-of-Personal-Networks.jpg"

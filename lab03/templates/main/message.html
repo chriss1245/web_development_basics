@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+<link rel="stylesheet" href="{{ url_for('static', filename='message.css')}}">
+{%  block content   %}
+    <h3 class = "h">Your message</h3>
+    {% include 'post_template.html' %}
+    {% include 'replies_template.html' %}
+{% endblock %}
