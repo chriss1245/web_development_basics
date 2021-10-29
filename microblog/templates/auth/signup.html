@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <div class='notification'>{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+    <h2>Sing Up!!!</h2>
+    <form action="{{url_for('auth.signup')}}" method = "post">
+        <div>
+            <label for = 'email'>Email:</label>
+            <input type="email" name=email id="email" required>
+        </div>
+        <div>
+            <label for="username">User:</label>
+            <input type="text" name= 'username' id="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" name='password' id="password" required>
+        </div>
+            <label for="repeat_password">Repeat Password:</label>
+            <input type="password" name="password_repeat" id="repeat_password" required>
+        <div>
+            <input type="submit" value="Sign Up">
+        </div>
+    </form>
+{% endblock %}
