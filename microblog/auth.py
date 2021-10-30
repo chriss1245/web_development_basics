@@ -38,3 +38,8 @@ def auth_signup_post():
 def login():
     return render_template('auth/login.html')
 
+@bp.route('/login', methods=['POST'])
+def auth_login_post():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    
