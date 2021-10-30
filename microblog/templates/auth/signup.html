@@ -3,7 +3,7 @@
 {% block content %}
     {% with messages = get_flashed_messages() %}
         {% for message in messages %}
-            <div class='notification'>{{ message }}</div>
+            <div class='error'>{{ message }}</div>
         {% endfor %}
     {% endwith %}
     <h2>Sing Up!!!</h2>

@@ -42,4 +42,11 @@ def login():
 def auth_login_post():
     email = request.form.get('email')
     password = request.form.get('password')
-    
+
+    user = model.User.query.filter_by(email=email).first()
+
+    if user and bcrypt.check_password_hash(user.password, password):
+        return redirect(url_for('main.index'))
+    else:
+        flash('Wrong email or password. Try again')
+        return redirect(url_for('auth.login'))
