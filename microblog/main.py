@@ -1,16 +1,15 @@
 import datetime
 import dateutil.tz
-from . import default
+from . import model, default
 
 from flask import Blueprint, render_template
-
-
-from . import model
+import flask_login
 
 bp = Blueprint("main", __name__)
 
 
 @bp.route("/")
+@flask_login.login_required
 def index():
     user = model.User(email= "mary@example.com", name= "mary")
     posts = [
@@ -36,9 +35,12 @@ def index():
 
 
 @bp.route("/profile")
-def user():
-    user = model.User(email= "mary@example.com", name= "mary")
+@flask_login.login_required
+def profile():
+    user = flask_login.current_user
     user.photo =  default.PHOTO
+    posts = model.Message.query.filter_by(user=user)
+    """
     posts = [
         model.Message(
             user = user,
@@ -57,10 +59,11 @@ def user():
             text = "What do you guys think", 
             timestamp = datetime.datetime.now(dateutil.tz.tzlocal())
         )
-    ]  
+    ]  """
     return render_template("main/profile.html", user=user, posts=posts)
 
 @bp.route("/messages")
+@flask_login.login_required
 def messages():
     user = model.User(email= "mary@example.com", name= "mary")
     users = [model.User(email= name+ "@example.com", name= name)\

@@ -6,7 +6,7 @@ header{
     display: flexbox;
     padding-bottom: 1%;
 }
-.navbar a {
+.navbar-item {
     text-decoration: none;
     color:rgb(226, 224, 240)
 }

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect,\
     url_for, flash
 from . import db, bcrypt, model
+from flask_login import current_user
 
 bp = Blueprint('auth', __name__)
 
@@ -34,6 +35,8 @@ def auth_signup_post():
     return redirect(url_for('main.index'))
 
 #----------------Log in---------------------------------------------------
+import flask_login
+
 @bp.route('/login')
 def login():
     return render_template('auth/login.html')
@@ -46,7 +49,14 @@ def auth_login_post():
     user = model.User.query.filter_by(email=email).first()
 
     if user and bcrypt.check_password_hash(user.password, password):
+        flask_login.login_user(user)
         return redirect(url_for('main.index'))
     else:
         flash('Wrong email or password. Try again')
         return redirect(url_for('auth.login'))
+
+#----------------------Log out-----------------------------------------------
+@bp.route('/logout')
+def logout():
+    flask_login.logout_user()
+    return redirect(url_for('auth.login'))
