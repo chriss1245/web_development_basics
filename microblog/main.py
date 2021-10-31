@@ -12,10 +12,16 @@ bp = Blueprint("main", __name__)
 @bp.route("/")
 @flask_login.login_required
 def index():
-    posts = (model.Message
-                .query.filter_by(response_to=None)
+    following = db.aliased(model.User)
+    posts = (model.Message.query
+                .join(model.User)
+                .join(following, model.User.followers)
+                .filter(following.id == flask_login.current_user.id,
+                model.Message.response_to==None)
                 .order_by(model.Message.timestamp.desc())
-                .limit(10).all())
+                .limit(10)
+                .all())
+    print(model.User.followers)
     return render_template("main/index.html", current_user=flask_login.current_user, posts=posts)
 
 
@@ -28,7 +34,14 @@ def profile(user_id):
                     .query.filter_by(response_to=None)
                     .filter_by(user=user).order_by(model.Message.timestamp.desc())
                     .all())
-    return render_template("main/profile.html", user=user, posts=posts)
+    
+    follow_button = ''
+    if user_id != flask_login.current_user.id:
+        if user in flask_login.current_user.following:
+            follow_button = 'unfollow'
+        else:
+            follow_button = 'follow'
+    return render_template("main/profile.html", user=user, posts=posts, follow_button=follow_button)
 
 @bp.route("/message/<int:message_id>")
 @flask_login.login_required
@@ -84,22 +97,22 @@ def post(message_id):
 @bp.route("/follow/<int:user_id>", methods=['POST'])
 @flask_login.login_required
 def follow(user_id):
-    followed = model.User.query.filter_by(id = user_id).first_or_404()
+    user = model.User.query.filter_by(id = user_id).first_or_404()
 
-    if user_id == current_user.user_id:
+    if user_id == flask_login.current_user.id:
         abort(403, "Cannot follow yourself")
-    if user in current_user.following:
+    if user in flask_login.current_user.following:
         abort(403, 'User already followed')
     
-    current_user.following.append(followed)
+    flask_login.current_user.following.append(user)
     db.session.commit()
     return redirect(url_for('main.profile', user_id=user_id))
 
-@bp.route("/unfollow/<int:user_id>", method=['POST'])
+@bp.route("/unfollow/<int:user_id>", methods=['POST'])
 @flask_login.login_required
 def unfollow(user_id):
-    user = model.User.query.filter_by(id=user_id).first_or_404()
-    if user in current_user.following:
-        user_to_remove = current_user.following.remove(user_to_remove)
+    user_to_remove = model.User.query.filter_by(id=user_id).first_or_404()
+    if user_to_remove in flask_login.current_user.following:
+        flask_login.current_user.following.remove(user_to_remove)
+        db.session.commit()
     return redirect(url_for('main.profile', user_id=user_id))
-    

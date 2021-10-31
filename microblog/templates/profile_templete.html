@@ -4,10 +4,41 @@
     <div class = 'description'>
         <h2 class = "h">{{user.name}}</h2>
         <strong>({{user.email}})</estrong>
+        <p>
+            {%if follow_button == 'follow'%}
+                <form action="{{url_for('main.follow', user_id=user.id)}}" method="post">
+                    <input type="submit" value="Follow">
+                </form>
+            {%elif follow_button == 'unfollow'%}
+                <form action="{{url_for('main.unfollow', user_id=user.id)}}" method="post">
+                    <input type="submit" value="Unfollow">
+                </form>
+            {%endif%}
+        </p>
     </div>
 </section>
 <section>
 <section class = "body">
-    <h3 class = "h"> Your latests posts</h3>
-    {% include "posts_template.html"%}
+    <div class="posts">
+        <h3 class = "h"> Your latests posts</h3>
+        {% include "posts_template.html"%}
+    </div>
+    <div class='social_data'>
+        <div>
+            <h3 class="h">Followers</h3>
+            {%for user in user.followers%}
+                <div>
+                    <a href="{{url_for('main.profile', user_id=user.id)}}">{{user.name}}</a>
+                </div>
+            {%endfor%}
+        </div>
+        <div>
+            <h3 class="h">Following</h3>
+            {%for user in user.following%}
+                <div>
+                    <a href="{{url_for('main.profile', user_id=user.id)}}">{{user.name}}</a>
+                </div>
+            {%endfor%}
+        </div>
+    </div>
 </section>
