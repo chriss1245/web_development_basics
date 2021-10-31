@@ -1,0 +1,13 @@
+{%extends 'base.html'%}
+
+{%block content%}
+    <form action="{{url_for('main.new')}}" method="post">
+        <h3>New post</h3>
+        <div>
+            <label for="new_post"></label>
+            <textarea name="new_post" id="new_post" cols="60" rows="10">
+            </textarea>
+            <input type="submit" value="Post">
+        </div>
+    </form>
+{%endblock%}

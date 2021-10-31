@@ -1,5 +1,6 @@
 <div class="message">
     <div class="text">{{ post.text}}</div>
+    <a href="{{url_for('main.message', message_id=1)}}">Details</a>
     <div class="metadata">
         <span class="author">{{ post.user.name }}</span>
         <span class="date">{{ post.timestamp }}</span>
